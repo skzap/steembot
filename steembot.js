@@ -2,33 +2,40 @@ var conf = {
   upvoteThreshold: 9,
   waitTime: 2500,
   failsafeTime: 60000,
-  scrollTime: 1500
+  scrollTime: 1500,
+  scoreMoney: 300,
+  scoreVotes: 1000,
+  scoreComments: 600,
+  lowTime: 10,
+  highTime: 180
 }
 
-console.log('Injecting JS Bot');
-setTimeout(function() {
-  location.reload();
-}, conf.failsafeTime);
-loadingPosts = setInterval(function(){ scrollToBottom(); }, conf.scrollTime);
-
+chrome.storage.sync.get(conf, function(newConfig) {
+  if (newConfig) conf=newConfig;
+  console.log('Injected JS Bot', conf);
+  setTimeout(function() {
+    location.reload();
+  }, conf.failsafeTime);
+  loadingPosts = setInterval(function(){ scrollToBottom(); }, conf.scrollTime);
+});
 
 function scorePost(post) {
   score = 0;
   // money is good
-  score += post.money/3;
+  score += conf.scoreMoney*post.money/1000;
   // votes are better
-  score += 1000*post.votesPerMin;
+  score += conf.scoreVotes*post.votesPerMin;
   // comments can help
-  score += 600*post.commentsPerMin;
+  score += conf.scoreComments*post.commentsPerMin;
 
   // dont vote too early
-  if (post.diffMs < 10) {
-    score *= post.diffMs/10
+  if (post.diffMs < conf.lowTime) {
+    score *= post.diffMs/conf.lowTime
   }
 
   // dont vote too late
-  if (post.diffMs > 180) {
-    score -= (post.diffMs-180)
+  if (post.diffMs > conf.highTime) {
+    score -= (post.diffMs-conf.highTime)
   }
   return score;
 }

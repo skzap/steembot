@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>SteemBot Options</title></head>
+<body>
+
+How many times the average score represents a content before it is upvoted: <input type='number' min='1' max='100' id='upvoteThreshold'><br /><br />
+Time to wait before refreshing page (millisecs) <input type='number' min='1000' max='10000000' id='waitTime'><br /><br />
+Time to wait before refreshing page if error occurs (millisecs) <input type='number' min='60000' max='10000000' id='failsafeTime'><br /><br />
+Time to scroll to bottom (millisecs) <input type='number' min='200' max='10000000' id='scrollTime'><br /><br />
+Score value of SBD Payout<input type='number' min='0' max='10000000' id='scoreMoney'><br /><br />
+Score value of votes<input type='number' min='0' max='10000000' id='scoreVotes'><br /><br />
+Score value of comments<input type='number' min='0' max='10000000' id='scoreComments'><br /><br />
+Low time for upvoting (minutes) <input type='number' min='1' max='10000000' id='lowTime'><br /><br />
+High time for upvoting (minutes) <input type='number' min='1' max='10000000' id='highTime'>
+<div id="status"></div>
+<button id="save">Save</button>
+
+<script src="options.js"></script>
+</body>
+</html>

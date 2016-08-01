@@ -13,6 +13,7 @@
   "permissions": [
     "tabs", "https://steemit.com/*", "storage"
   ],
+  "options_page": "options.html",
   "icons": {
     "48": "steem48.png",
     "128": "steem128.png"
