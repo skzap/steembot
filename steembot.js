@@ -118,6 +118,7 @@ function processData() {
 
 function upvote(rawPost) {
   rawPost.getElementsByClassName('Voting__button-up')[0].getElementsByTagName('A')[0].click();
+  rawPost.getElementsByClassName('Voting__button-up')[0].getElementsByClassName('confirm_weight')[0].click();
 }
 function isUpvoted(rawPost) {
   var upvoteButton = rawPost.getElementsByClassName('Voting__button-up')[0];
@@ -138,7 +139,7 @@ function getCommentsCount(rawPost) {
   return count;
 }
 function getDateTime(rawPost) {
-  return rawPost.getElementsByTagName('time')[0].title;
+  return rawPost.getElementsByClassName('vcard')[0].getElementsByTagName('SPAN')[0].title;
 }
 function getMoney(rawPost) {
   var money = parseInt(rawPost.getElementsByClassName('integer')[0].innerHTML)
