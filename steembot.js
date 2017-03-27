@@ -6,6 +6,7 @@ var conf = {
   scoreMoney: 300,
   scoreVotes: 1000,
   scoreComments: 600,
+  scoreReputation: 500,
   lowTime: 10,
   highTime: 180
 }
@@ -27,6 +28,8 @@ function scorePost(post) {
   score += conf.scoreVotes*post.votesPerMin;
   // comments can help
   score += conf.scoreComments*post.commentsPerMin;
+  // reputation is interesting
+  score += conf.scoreReputation*post.reputation/1000;
 
   // dont vote too early
   if (post.diffMs < conf.lowTime) {
@@ -66,6 +69,7 @@ function getData() {
     post.title = getTitle(rawPosts[i]);
     post.upvoted = isUpvoted(rawPosts[i]);
     post.votes = getUpvotesCount(rawPosts[i]);
+    post.reputation = getReputation(rawPosts[i]);
     posts.push(post);
   }
   return posts;
@@ -110,12 +114,33 @@ function processData() {
     if (!posts[i].upvoted) {
       upvote(posts[i].raw);
       console.log('Upvoted', posts[i]);
+      saveUpvote(posts[i], averages)
       break;
     }
   }
   return posts;
 }
 
+function saveUpvote(post, averages) {
+  // saving upvote into vote history
+  chrome.storage.sync.get('voteHistory', function(r) {
+    var newVoteHistory = [];
+    if (!r || !r.voteHistory) var r = { voteHistory: [] };
+    var history = {
+      post: post,
+      averages: averages,
+      d: new Date().toISOString()
+    }
+    newVoteHistory.push(history);
+    for (var i = 0; i < r.voteHistory.length; i++) {
+      if (newVoteHistory.length >= 100) break;
+      newVoteHistory.push(r.voteHistory[i])
+    }
+    console.log(newVoteHistory)
+    chrome.storage.sync.set({'voteHistory': newVoteHistory}, function() {
+    });
+  });
+}
 function upvote(rawPost) {
   rawPost.getElementsByClassName('Voting__button-up')[0].getElementsByTagName('A')[0].click();
   rawPost.getElementsByClassName('Voting__button-up')[0].getElementsByClassName('confirm_weight')[0].click();
@@ -157,4 +182,7 @@ function getTitle(rawPost) {
 }
 function getLink(rawPost) {
   return rawPost.getElementsByClassName('entry-title')[0].getElementsByTagName('A')[0];
+}
+function getReputation(rawPost) {
+  return parseInt(rawPost.getElementsByClassName('Reputation')[0].innerHTML);
 }

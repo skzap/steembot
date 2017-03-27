@@ -3,7 +3,7 @@
   "name": "Steem Upvote Bot",
   "short_name": "SteemBot",
   "description": "Automatic upvoting of new content",
-  "version": "0.3",
+  "version": "0.4",
   "background": {
     "scripts": ["background.js"]
   },

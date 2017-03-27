@@ -1,20 +1,137 @@
 <!DOCTYPE html>
 <html>
-<head><title>SteemBot Options</title></head>
+<head>
+  <title>SteemBot Options</title>
+  <link rel="stylesheet" type="text/css" href="spectre.min.css">
+  <link rel="stylesheet" type="text/css" href="options.css">
+</head>
 <body>
+<h1>STEEM Upvote Bot Extension</h1>
+<a href='https://github.com/skzap/steembot'>Source Code</a> | <a href='https://steemit.com/@heimindanger'>@heimindanger</a>
+<hr>
+<br />
+<button id="save" style='float: right' class="btn btn-primary">Save</button>
+<div id="status" style='display: none; float:right;'>
+  <span class="label label-success">Options saved</span>
+</div>
+<h3>Configuration</h3>
+<table class="table table-striped table-hover">
+  <thead>
+    <th>Option</th>
+    <th>Value</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bot upvotes content if the score of a content is X times the average:</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='1' max='25' id='upvoteThreshold'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Score value of SBD Payout</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='-1000' max='1000' id='scoreMoney'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Score value of votes</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='-1000' max='1000' id='scoreVotes'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Score value of comments</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='-1000' max='1000' id='scoreComments'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Score value of reputation</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='-1000' max='1000' id='scoreReputation'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Bot will reduce the score of posts who are less than X minutes old</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='1' max='60' id='lowTime'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Bot will reduce the score of posts who are older than X minutes</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='1' max='1440' id='highTime'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Time to scroll to bottom (millisecs)</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='200' max='5000' id='scrollTime'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Bot will refresh page after X millisecs after voting:</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='1000' max='10000' id='waitTime'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Failsafe page refresh timer:</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='60000' max='3600000' id='failsafeTime'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br />
+<h3>Upvotes</h3>
+<table class='table' id='voteTable'>
+  <thead>
+    <th>At</th>
+    <th>Author</th>
+    <th>Title</th>
+    <th>Min</th>
+    <th>Money</th>
+    <th>Votes</th>
+    <th>Comments</th>
+    <th>Reputation</th>
+    <th>Score</th>
+    <th>Avg Score</th>
+  </thead>
+  <tbody></tbody>
+</table>
 
-How many times the average score represents a content before it is upvoted: <input type='number' min='1' max='100' id='upvoteThreshold'><br /><br />
-Time to wait before refreshing page (millisecs) <input type='number' min='1000' max='10000000' id='waitTime'><br /><br />
-Time to wait before refreshing page if error occurs (millisecs) <input type='number' min='60000' max='10000000' id='failsafeTime'><br /><br />
-Time to scroll to bottom (millisecs) <input type='number' min='200' max='10000000' id='scrollTime'><br /><br />
-Score value of SBD Payout<input type='number' min='0' max='10000000' id='scoreMoney'><br /><br />
-Score value of votes<input type='number' min='0' max='10000000' id='scoreVotes'><br /><br />
-Score value of comments<input type='number' min='0' max='10000000' id='scoreComments'><br /><br />
-Low time for upvoting (minutes) <input type='number' min='1' max='10000000' id='lowTime'><br /><br />
-High time for upvoting (minutes) <input type='number' min='1' max='10000000' id='highTime'>
-<div id="status"></div>
-<button id="save">Save</button>
-
+<script src="jquery-3.2.0.min.js"></script>
 <script src="options.js"></script>
 </body>
 </html>
