@@ -18,4 +18,9 @@ function InjectBot(tab) {
 
 chrome.browserAction.onClicked.addListener(function(tab) {
   steemin = !steemin;
+  if (steemin) {
+    chrome.browserAction.setIcon({path:"steem128a.png"});
+  } else {
+    chrome.browserAction.setIcon({path:"steem128.png"});
+  }
 });
