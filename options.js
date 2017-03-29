@@ -53,7 +53,7 @@ function restore_options() {
 }
 
 function display_vote_history() {
-  chrome.storage.sync.get('voteHistory', function(r) {
+  chrome.storage.local.get('voteHistory', function(r) {
     if (!r || !r.voteHistory) return;
     for (var i = 0; i < r.voteHistory.length; i++) {
       var post = r.voteHistory[i].post;

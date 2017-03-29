@@ -40,6 +40,7 @@ function scorePost(post) {
   if (post.diffMs > conf.highTime) {
     score -= (post.diffMs-conf.highTime)
   }
+  if (score < 0) score = 0;
   return score;
 }
 
@@ -123,7 +124,7 @@ function processData() {
 
 function saveUpvote(post, averages) {
   // saving upvote into vote history
-  chrome.storage.sync.get('voteHistory', function(r) {
+  chrome.storage.local.get('voteHistory', function(r) {
     var newVoteHistory = [];
     if (!r || !r.voteHistory) var r = { voteHistory: [] };
     var history = {
@@ -137,7 +138,7 @@ function saveUpvote(post, averages) {
       newVoteHistory.push(r.voteHistory[i])
     }
     console.log(newVoteHistory)
-    chrome.storage.sync.set({'voteHistory': newVoteHistory}, function() {
+    chrome.storage.local.set({'voteHistory': newVoteHistory}, function() {
     });
   });
 }
