@@ -53,6 +53,7 @@ function restore_options() {
 }
 
 function display_vote_history() {
+  $("#voteTable tr").remove();
   chrome.storage.local.get('voteHistory', function(r) {
     if (!r || !r.voteHistory) return;
     for (var i = 0; i < r.voteHistory.length; i++) {
@@ -104,4 +105,8 @@ $( document ).ready(function() {
 
   rangeSlider();
   display_vote_history()
+  $('#wipe_vote_history').click(function() {
+    wipe_vote_history()
+    display_vote_history()
+  })
 });
