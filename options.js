@@ -77,7 +77,7 @@ function display_vote_history() {
 }
 
 function wipe_vote_history() {
-  chrome.storage.sync.set({'voteHistory': null}, function() {});
+  chrome.storage.local.set({'voteHistory': null}, function() {});
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);
