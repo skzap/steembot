@@ -8,7 +8,9 @@ var conf = {
   scoreComments: 600,
   scoreReputation: 500,
   lowTime: 10,
-  highTime: 180
+  highTime: 180,
+  upvoteAuthors: ['@heimindanger', '@ned'],
+  neverUpvoteBefore: 5
 }
 
 chrome.storage.sync.get(conf, function(newConfig) {

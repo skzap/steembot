@@ -22,6 +22,25 @@
   </thead>
   <tbody>
     <tr>
+      <td>Bot always upvotes this list of authors:</td>
+      <td>
+        <div class="form-group">
+          <label class="form-label" for="upvoteAuthors">One author per line</label>
+          <textarea width='100%' class="form-input" id="upvoteAuthors" placeholder="Textarea" rows="7">@heimindanger
+@ned</textarea>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Never Upvote Before X minutes:</td>
+      <td>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" min='1' max='25' id='neverUpvoteBefore'>
+          <span class="range-slider__value">0</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
       <td>Bot upvotes content if the score of a content is X times the average:</td>
       <td>
         <div class="range-slider">
