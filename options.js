@@ -61,9 +61,10 @@ function display_vote_history() {
       var time = r.voteHistory[i].d;
       var averages = r.voteHistory[i].averages;
       var htmlLine = '<tr>';
+      console.log(post);
       htmlLine += '<td>'+time+'</td>'
       htmlLine += '<td>'+post.author+'</td>'
-      htmlLine += '<td>'+post.title+'</td>'
+      htmlLine += '<td><a href=\''+post.href+'\' target="_blank">'+post.title+'</a></td>'
       htmlLine += '<td>'+Math.round(post.diffMs)+'</td>'
       htmlLine += '<td>'+post.money+'</td>'
       htmlLine += '<td>'+post.votes+'</td>'

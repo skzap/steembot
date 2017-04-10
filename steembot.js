@@ -71,6 +71,7 @@ function getData() {
     post.upvoted = isUpvoted(rawPosts[i]);
     post.votes = getUpvotesCount(rawPosts[i]);
     post.reputation = getReputation(rawPosts[i]);
+    post.href = getHref(rawPosts[i]);
     posts.push(post);
   }
   return posts;
@@ -183,6 +184,9 @@ function getTitle(rawPost) {
 }
 function getLink(rawPost) {
   return rawPost.getElementsByClassName('entry-title')[0].getElementsByTagName('A')[0];
+}
+function getHref(rawPost) {
+  return getLink(rawPost).href;
 }
 function getReputation(rawPost) {
   return parseInt(rawPost.getElementsByClassName('Reputation')[0].innerHTML);
