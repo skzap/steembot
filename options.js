@@ -53,7 +53,7 @@ function restore_options() {
 }
 
 function display_vote_history() {
-  $("#voteTable tr").remove();
+  $("#voteTable tr").not('thead tr').remove();
   chrome.storage.local.get('voteHistory', function(r) {
     if (!r || !r.voteHistory) return;
     for (var i = 0; i < r.voteHistory.length; i++) {
