@@ -75,8 +75,13 @@ function display_vote_history() {
       htmlLine += '<td>'+post.votes+'</td>'
       htmlLine += '<td>'+post.comments+'</td>'
       htmlLine += '<td>'+post.reputation+'</td>'
-      htmlLine += '<td>'+Math.round(post.score)+'</td>'
-      htmlLine += '<td>'+Math.round(averages.score)+'</td>'
+      if (post.score == Number.MAX_SAFE_INTEGER) {
+        htmlLine += '<td>&infin;</td><td></td>'
+      }
+      else {
+        htmlLine += '<td>'+Math.round(post.score)+'</td>'
+        htmlLine += '<td>'+Math.round(averages.score)+'</td>'
+      }
       htmlLine += '</tr>';
       $('#voteTable').append(htmlLine)
     }

@@ -23,6 +23,9 @@ chrome.storage.sync.get(conf, function(newConfig) {
 });
 
 function scorePost(post) {
+  // check for neverUpvoteBefore time
+  if (post.diffMs < conf.neverUpvoteBefore) return 0;
+
   score = 0;
   // money is good
   score += conf.scoreMoney*post.money/1000;
@@ -42,7 +45,7 @@ function scorePost(post) {
   if (post.diffMs > conf.highTime) {
     score -= (post.diffMs-conf.highTime)
   }
-  if (score < 0) score = 0;
+  if (score < 0) return 0;
   return score;
 }
 
@@ -114,13 +117,13 @@ function processData() {
 
   // see if we can upvote anything now
   for (var i = 0; i < posts.length; i++) {
-    if (posts[i].score < conf.upvoteThreshold*averages.score) break;
-    if (!posts[i].upvoted) {
+    if (!posts[i].upvoted && (conf.upvoteAuthors.indexOf(posts[i].author) > -1 || posts[i].score >= conf.upvoteThreshold*averages.score)) {
       upvote(posts[i].raw);
       console.log('Upvoted', posts[i]);
       saveUpvote(posts[i], averages)
       break;
     }
+
   }
   return posts;
 }
