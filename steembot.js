@@ -67,6 +67,7 @@ function getData() {
   var rawPosts = document.getElementsByClassName('PostSummary');
   var posts = [];
   for (var i = 0; i < rawPosts.length && i < 1000; i++) {
+    if (isNSFWBlock(rawPosts[i])) continue;
     var post = {};
     post.author = getAuthor(rawPosts[i]);
     post.comments = getCommentsCount(rawPosts[i]);
@@ -114,8 +115,6 @@ function processData(doUpvote) {
   posts.sort(function(a, b){
     return b.score-a.score;
   });
-  console.log(averages, posts.length);
-
   displayScreenInfo(averages, posts)
 
   // see if we can upvote anything now
@@ -193,7 +192,6 @@ function getTitle(rawPost) {
   return getLink(rawPost).innerHTML;
 }
 function getLink(rawPost) {
-  // this fails if post is NSFW and not displayed
   return rawPost.getElementsByClassName('entry-title')[0].getElementsByTagName('A')[0];
 }
 function getHref(rawPost) {
@@ -201,6 +199,10 @@ function getHref(rawPost) {
 }
 function getReputation(rawPost) {
   return parseInt(rawPost.getElementsByClassName('Reputation')[0].innerHTML);
+}
+function isNSFWBlock(rawPost) {
+  if (rawPost.getElementsByClassName('PostSummary__nsfw-warning').length > 0) return true
+  return false
 }
 
 function displayScreenInfo(averages, posts) {
@@ -212,7 +214,11 @@ function displayScreenInfo(averages, posts) {
       break
     }
   }
-  var topTitle = topPost.title.substr(0,50)
-  var top = 'Best Unvoted Post: '+topPost.score+' '+topPost.author+'/'+topTitle+' ($'+topPost.money+')'
+  var top = ''
+  if (topPost) {
+    var topTitle = topPost.title.substr(0,50)
+    top = '#1/'+posts.length+': '+topPost.score+' '+topPost.author+'/'+topTitle+' ($'+topPost.money+')'
+  }
+
   document.getElementsByClassName('Header__top-steemit')[0].innerHTML = stats + '<br />' + top;
 }
