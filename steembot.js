@@ -52,11 +52,12 @@ function scorePost(post) {
 function scrollToBottom() {
   if (getData().length > 200) {
     clearInterval(loadingPosts);
-    processData();
+    processData(true);
     setTimeout(function() {
       location.reload();
     }, conf.waitTime);
   } else {
+    processData(false);
     window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
   }
 }
@@ -83,7 +84,7 @@ function getData() {
 }
 
 // calculates averages, scores, and upvotes if possible
-function processData() {
+function processData(doUpvote) {
   var posts = getData();
   var averages = {
     comments: 0,
@@ -115,16 +116,20 @@ function processData() {
   });
   console.log(averages, posts.length);
 
-  // see if we can upvote anything now
-  for (var i = 0; i < posts.length; i++) {
-    if (!posts[i].upvoted && (conf.upvoteAuthors.indexOf(posts[i].author) > -1 || posts[i].score >= conf.upvoteThreshold*averages.score)) {
-      upvote(posts[i].raw);
-      console.log('Upvoted', posts[i]);
-      saveUpvote(posts[i], averages)
-      break;
-    }
+  displayScreenInfo(averages, posts)
 
+  // see if we can upvote anything now
+  if (doUpvote) {
+    for (var i = 0; i < posts.length; i++) {
+      if (!posts[i].upvoted && (conf.upvoteAuthors.indexOf(posts[i].author) > -1 || posts[i].score >= conf.upvoteThreshold*averages.score)) {
+        upvote(posts[i].raw);
+        console.log('Upvoted', posts[i]);
+        saveUpvote(posts[i], averages)
+        break;
+      }
+    }
   }
+
   return posts;
 }
 
@@ -188,6 +193,7 @@ function getTitle(rawPost) {
   return getLink(rawPost).innerHTML;
 }
 function getLink(rawPost) {
+  // this fails if post is NSFW and not displayed
   return rawPost.getElementsByClassName('entry-title')[0].getElementsByTagName('A')[0];
 }
 function getHref(rawPost) {
@@ -195,4 +201,18 @@ function getHref(rawPost) {
 }
 function getReputation(rawPost) {
   return parseInt(rawPost.getElementsByClassName('Reputation')[0].innerHTML);
+}
+
+function displayScreenInfo(averages, posts) {
+  document.getElementsByClassName('Header__top-logo')[0].innerHTML = ''
+  var stats = 'Current Average Score: '+averages.score
+  for (var i = 0; i < posts.length; i++) {
+    if (!posts[i].upvoted) {
+      var topPost = posts[i]
+      break
+    }
+  }
+  var topTitle = topPost.title.substr(0,50)
+  var top = 'Best Unvoted Post: '+topPost.score+' '+topPost.author+'/'+topTitle+' ($'+topPost.money+')'
+  document.getElementsByClassName('Header__top-steemit')[0].innerHTML = stats + '<br />' + top;
 }
