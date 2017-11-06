@@ -16,6 +16,8 @@ var conf = {
 chrome.storage.sync.get(conf, function(newConfig) {
   if (newConfig) conf=newConfig;
   console.log('Injected JS Bot', conf);
+  // getData();
+  // processData(true);
   setTimeout(function() {
     location.reload();
   }, conf.failsafeTime);
@@ -64,8 +66,9 @@ function scrollToBottom() {
 
 // parses the raw information from the document
 function getData() {
-  var rawPosts = document.getElementsByClassName('PostSummary');
+  var rawPosts = document.getElementsByClassName('articles__summary');
   var posts = [];
+
   for (var i = 0; i < rawPosts.length && i < 1000; i++) {
     if (isNSFWBlock(rawPosts[i])) continue;
     var post = {};
@@ -147,7 +150,6 @@ function saveUpvote(post, averages) {
       if (newVoteHistory.length >= 100) break;
       newVoteHistory.push(r.voteHistory[i])
     }
-    console.log(newVoteHistory)
     chrome.storage.local.set({'voteHistory': newVoteHistory}, function() {
     });
   });
@@ -175,7 +177,7 @@ function getCommentsCount(rawPost) {
   return count;
 }
 function getDateTime(rawPost) {
-  return rawPost.getElementsByClassName('vcard')[0].getElementsByTagName('SPAN')[0].title;
+  return rawPost.getElementsByClassName('timestamp__time')[0].getElementsByTagName('span')[0].title;
 }
 function getMoney(rawPost) {
   var money = parseInt(rawPost.getElementsByClassName('integer')[0].innerHTML)
