@@ -208,7 +208,7 @@ function isNSFWBlock(rawPost) {
 }
 
 function displayScreenInfo(averages, posts) {
-  document.getElementsByClassName('Header__top-logo')[0].innerHTML = ''
+  document.getElementsByClassName('Header__logo')[0].innerHTML = ''
   var stats = 'Current Average Score: '+averages.score
   for (var i = 0; i < posts.length; i++) {
     if (!posts[i].upvoted) {
